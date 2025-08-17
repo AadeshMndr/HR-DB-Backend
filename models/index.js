@@ -14,18 +14,22 @@ require("dotenv").config();
 // });
 
 const sequelize = new Sequelize(
-  process.env.DB,
-  process.env.USER,
-  process.env.PASSWORD,
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
   {
-    host: process.env.HOST,
-    port: process.env.PORT,
-    dialect: process.env.DIALECT,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT,
     define: {
       //freezeTableName: true,
     },
     dialectOptions: {
-      connectTimeout: 60000
+      connectTimeout: 60000,
+      ssl: {
+        require: true,       // force SSL
+        rejectUnauthorized: false // allow self-signed certs (Render uses a trusted cert, but this avoids issues)
+      }
     }
   }
 );
