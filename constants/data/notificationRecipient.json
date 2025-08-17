@@ -1,0 +1,16 @@
+[
+  
+  { "notificationId": 13, "employeeEmpId": 1, "status": "seen" },
+  { "notificationId": 1, "employeeEmpId": 1, "status": "waiting" },
+  { "notificationId": 2, "employeeEmpId": 1, "status": "waiting" },
+  { "notificationId": 3, "employeeEmpId": 1, "status": "new" },
+  { "notificationId": 4, "employeeEmpId": 1, "status": "seen" },
+  { "notificationId": 5, "employeeEmpId": 1, "status": "waiting" },
+  { "notificationId": 6, "employeeEmpId": 1, "status": "seen" },
+  { "notificationId": 7, "employeeEmpId": 1, "status": "seen" },
+  { "notificationId": 8, "employeeEmpId": 1, "status": "new" },
+  { "notificationId": 9, "employeeEmpId": 1, "status": "seen" },
+  { "notificationId": 10, "employeeEmpId": 1, "status": "seen" },
+  { "notificationId": 11, "employeeEmpId": 1, "status": "seen" },
+  { "notificationId": 12, "employeeEmpId": 1, "status": "waiting" }
+]

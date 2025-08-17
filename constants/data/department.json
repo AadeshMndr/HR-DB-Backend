@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "departmentName": "Computer",
+    "departmentManagerId": null,
+    "createdAt": "2024-09-18T21:06:39.645Z",
+    "updatedAt": "2024-09-18T21:06:39.645Z"
+  },
+  {
+    "id": 2,
+    "departmentName": "Electronics",
+    "departmentManagerId": null,
+    "createdAt": "2024-09-18T21:06:39.645Z",
+    "updatedAt": "2024-09-18T21:06:39.645Z"
+  }
+]
