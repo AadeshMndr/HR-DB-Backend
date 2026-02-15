@@ -25,11 +25,12 @@ const sequelize = new Sequelize(
       //freezeTableName: true,
     },
     dialectOptions: {
-      connectTimeout: 60000,
-      ssl: {
-        require: true,       // force SSL
-        rejectUnauthorized: false // allow self-signed certs (Render uses a trusted cert, but this avoids issues)
-      }
+      connectTimeout: 60000
+      // SSL disabled for local Docker development
+      // ssl: {
+      //   require: true,       // force SSL
+      //   rejectUnauthorized: false // allow self-signed certs (Render uses a trusted cert, but this avoids issues)
+      // }
     }
   }
 );

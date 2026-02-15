@@ -17,6 +17,12 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Create admin role if it doesn't exist
+--
+CREATE ROLE admin WITH LOGIN PASSWORD 'admin';
+ALTER ROLE admin CREATEDB;
+
+--
 -- Name: enum_employee_position; Type: TYPE; Schema: public; Owner: admin
 --
 
