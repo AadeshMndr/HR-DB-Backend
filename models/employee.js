@@ -190,8 +190,22 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.TEXT,
         allowNull: true,
       },
+      ioeEmployeeId: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true,
+      },
+      tuEmployeeId: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true,
+      },
       contractExpiryDate: {
         type: Sequelize.DATE,
+        allowNull: true,
+      },
+      bankAccountNumber: {
+        type: Sequelize.STRING,
         allowNull: true,
       },
     },

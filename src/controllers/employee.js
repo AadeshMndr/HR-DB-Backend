@@ -62,6 +62,28 @@ const predefinedColors = [
   "#EAECF0", // Other
 ];
 
+const normalizeEmployeeIdentifier = (value) => {
+  if (value === undefined) {
+    return undefined;
+  }
+  if (value === null) {
+    return null;
+  }
+  if (typeof value !== "string") {
+    return value;
+  }
+  const trimmedValue = value.trim();
+  return trimmedValue.length === 0 ? null : trimmedValue.toUpperCase();
+};
+
+const formatIoeEmployeeId = (empId) => {
+  return `IOE-${String(empId).padStart(5, "0")}`;
+};
+
+const formatTuEmployeeId = (empId) => {
+  return `TU-${String(empId).padStart(7, "0")}`;
+};
+
 // Utility function to sum values of an array of objects
 const sumValues = (arr) => {
   let sum = 0;
@@ -110,6 +132,17 @@ const employeeQueryObject = {
     },
   ],
 };
+
+const publicEmployeeAttributes = [
+  "empId",
+  "firstName",
+  "lastName",
+  "preferredName",
+  "position",
+  "post",
+  "photo",
+  "fieldOfInterest",
+];
 
 // Utility function to assign timeOff to new employee
 const assignTimeOffToEmployee = async (empId) => {
@@ -209,6 +242,19 @@ exports.showAll = async (req, res) => {
     convertPhotoToBase64(employee[index]);
   }
   res.send(employee);
+};
+
+exports.showAllPublic = async (req, res) => {
+  const employees = await db.employee.findAll({
+    attributes: publicEmployeeAttributes,
+  });
+  if (!employees) {
+    return res.send("No results found");
+  }
+  for (let index = 0; index < employees.length; index++) {
+    convertPhotoToBase64(employees[index]);
+  }
+  res.send(employees);
 };
 
 exports.showAllTerminated = async (req, res) => {
@@ -336,11 +382,23 @@ exports.finalizeOnboarding = async (req, res) => {
 
 exports.createRecord = async (req, res) => {
   try {
-    const inputs = req.body.inputs;
+    const inputs = {
+      ...req.body.inputs,
+    };
+    inputs.ioeEmployeeId = normalizeEmployeeIdentifier(inputs.ioeEmployeeId);
+    inputs.tuEmployeeId = normalizeEmployeeIdentifier(inputs.tuEmployeeId);
     // console.log(inputs);
     const data = await db.employee.create(inputs, {
       include: ["socialProfiles"],
     });
+    const ioeEmployeeId =
+      normalizeEmployeeIdentifier(inputs.ioeEmployeeId) ||
+      formatIoeEmployeeId(data.empId);
+    const tuEmployeeId =
+      normalizeEmployeeIdentifier(inputs.tuEmployeeId) ||
+      formatTuEmployeeId(data.empId);
+    data.set({ ioeEmployeeId, tuEmployeeId });
+    await data.save();
     /**
      * Create an appUser account for new employee added.
      * But check if there exists appUser account for the used email.
@@ -412,7 +470,19 @@ exports.createRecord = async (req, res) => {
 };
 
 exports.updateRecord = async (req, res) => {
-  const updatedData = req.body;
+  const updatedData = {
+    ...req.body,
+  };
+  if (Object.prototype.hasOwnProperty.call(updatedData, "ioeEmployeeId")) {
+    updatedData.ioeEmployeeId = normalizeEmployeeIdentifier(
+      updatedData.ioeEmployeeId
+    );
+  }
+  if (Object.prototype.hasOwnProperty.call(updatedData, "tuEmployeeId")) {
+    updatedData.tuEmployeeId = normalizeEmployeeIdentifier(
+      updatedData.tuEmployeeId
+    );
+  }
   try {
     const employee = await db.employee.findByPk(updatedData.empId);
     employee.set(updatedData);
