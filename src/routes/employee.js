@@ -3,7 +3,7 @@ const { requireAuth } = require("../../config/authJwt");
 
 module.exports = (router) => {
   router.route("/employees").get(requireAuth, controller.showAll);
-  router.route("/employees/public").get(controller.showAll); // Public route without auth
+  router.route("/employees/public").get(controller.showAllPublic); // Public route without auth
   router.route("/terminated").get(requireAuth, controller.showAllTerminated);
   router.route("/managers").get(requireAuth, controller.showManagers);
   router.route("/employees/find/myteam/").post(requireAuth, controller.showMyTeam);

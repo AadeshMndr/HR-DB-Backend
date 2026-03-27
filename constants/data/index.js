@@ -88,6 +88,10 @@ module.exports = {
   populateEmployeeTable: async function (db) {
     const data = require("./employee.json");
     const path = "./constants/data/images/";
+    for (let d of data) {
+      d.ioeEmployeeId = `IOE-${String(d.empId).padStart(5, "0")}`;
+      d.tuEmployeeId = `TU-${String(d.empId).padStart(7, "0")}`;
+    }
     if (fs.existsSync(path)) {
       for (let d of data) {
         //console.log(d);
