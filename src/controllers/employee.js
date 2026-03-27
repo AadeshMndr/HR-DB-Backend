@@ -121,6 +121,9 @@ const convertPhotoToBase64 = (employee) => {
 };
 
 const employeeQueryObject = {
+  attributes: {
+    include: ["ioeEmployeeId", "tuEmployeeId", "bankAccountNumber"],
+  },
   include: [
     "role",
     "department",
@@ -131,6 +134,18 @@ const employeeQueryObject = {
       as: "Manager",
     },
   ],
+};
+
+const ensureSensitiveFields = (employee) => {
+  if (typeof employee.ioeEmployeeId === "undefined") {
+    employee.setDataValue("ioeEmployeeId", null);
+  }
+  if (typeof employee.tuEmployeeId === "undefined") {
+    employee.setDataValue("tuEmployeeId", null);
+  }
+  if (typeof employee.bankAccountNumber === "undefined") {
+    employee.setDataValue("bankAccountNumber", null);
+  }
 };
 
 const publicEmployeeAttributes = [
@@ -239,6 +254,7 @@ exports.showAll = async (req, res) => {
     return res.send("No results found");
   }
   for (let index = 0; index < employee.length; index++) {
+    ensureSensitiveFields(employee[index]);
     convertPhotoToBase64(employee[index]);
   }
   res.send(employee);
@@ -268,6 +284,7 @@ exports.showAllTerminated = async (req, res) => {
     return res.send("No results found");
   }
   for (let index = 0; index < employee.length; index++) {
+    ensureSensitiveFields(employee[index]);
     convertPhotoToBase64(employee[index]);
   }
   res.send(employee);
@@ -286,6 +303,7 @@ exports.showMyTeam = async (req, res) => {
     return res.send([]);
   }
   for (let index = 0; index < employee.length; index++) {
+    ensureSensitiveFields(employee[index]);
     convertPhotoToBase64(employee[index]);
   }
   // console.log(employee.length);
@@ -296,6 +314,7 @@ exports.showOne = async (req, res) => {
   const id = req.params.id;
   const employee = await db.employee.findByPk(id, employeeQueryObject);
   if (employee) {
+    ensureSensitiveFields(employee);
     convertPhotoToBase64(employee);
     res.status(200).send(employee);
   } else {
@@ -338,6 +357,7 @@ exports.findOneByEmail = async (req, res) => {
   };
   const employee = await db.employee.findOne(query);
   if (employee) {
+    ensureSensitiveFields(employee);
     convertPhotoToBase64(employee);
     res.status(200).json(employee);
   } else {
