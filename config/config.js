@@ -1,13 +1,18 @@
 require('dotenv').config({ path: `${process.cwd()}/.env` });
 
+const dbUser = process.env.DB_USER || process.env.DB_USERNAME || process.env.USER;
+const dbPassword = process.env.DB_PASSWORD || process.env.PASSWORD;
+const dbName = process.env.DB_NAME || process.env.DB;
+const dbHost = process.env.DB_HOST || process.env.HOST;
+const dbPort = process.env.DB_PORT || process.env.PORT;
 
 module.exports = {
     development: {
-        username: process.env.USER,
-        password: process.env.PASSWORD,
-        database: process.env.DB,
-        host: process.env.HOST,
-        port: process.env.PORT,
+        username: dbUser,
+        password: dbPassword,
+        database: dbName,
+        host: dbHost,
+        port: dbPort,
         dialect: 'postgres',
         seederStorage: 'sequelize',
     },
@@ -19,11 +24,11 @@ module.exports = {
         dialect: 'mysql',
     },
     production: {
-        username: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
+        username: dbUser,
+        password: dbPassword,
+        database: dbName,
+        host: dbHost,
+        port: dbPort,
         dialect: 'postgres',
     },
 };

@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   postgres:
     image: postgres:17
@@ -24,11 +22,13 @@ services:
 
   hr-backend:
     image: aadeshmanandhar14646/hr-db-backend:latest 
+    # image: hr-db-backend:latest 
     container_name: hr-backend-app
     restart: unless-stopped
     environment:
       DB_HOST: postgres
       DB_USER: college-staff
+      DB_USERNAME: college-staff
       DB_PASSWORD: college-staff
       DB_NAME: hr_management
       DB_DIALECT: postgres
